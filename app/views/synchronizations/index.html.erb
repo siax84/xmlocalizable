@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Synchronizations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="4"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @synchronizations.each do |synchronization| %>
+      <tr>
+        <td><%= synchronization.name %></td>
+        <td><%= link_to 'Show', synchronization %></td>
+        <td><%= link_to 'Edit', edit_synchronization_path(synchronization) %></td>
+        <td><%= link_to 'Map', map_synchronization_path(synchronization) %></td>
+        <td><%= link_to 'Destroy', synchronization, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Synchronization', new_synchronization_path %>

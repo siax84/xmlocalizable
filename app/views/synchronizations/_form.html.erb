@@ -1,0 +1,39 @@
+<%= form_with(model: synchronization, local: true) do |form| %>
+  <% if synchronization.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(synchronization.errors.count, "error") %> prohibited this synchronization from being saved:</h2>
+
+      <ul>
+        <% synchronization.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'form-control' %>
+  </div>
+  <div class="field">
+    <%= form.label :source_platform %>
+    <%= form.select :source_platform, options_for_select(['Android', 'iOS']), class: 'form-control' %>
+  </div>
+  <div class="field">
+    <%= form.label :source_document %>
+    <%= form.text_area :source_document, :cols => 150, :rows => 12, class: 'form-control' %>
+  </div>
+    
+  <div class="field">
+    <%= form.label :target_platform %>
+    <%= form.select :target_platform, options_for_select(['iOS', 'Android']), class: 'form-control' %>
+  </div>
+  <div class="field">
+    <%= form.label :target_document %>
+    <%= form.text_area :target_document, :cols => 150, :rows => 12, class: 'form-control' %>
+  </div>  
+  
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

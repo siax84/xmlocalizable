@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  source_field: one
+  target_field: one
+  bidirectional: false
+  synchronization: one
+
+two:
+  source_field: two
+  target_field: two
+  bidirectional: false
+  synchronization: two
