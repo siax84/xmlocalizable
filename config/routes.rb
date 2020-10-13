@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     member do
       put 'map'
       get 'map'
+      get 'save_localizable'
     end
   end
   

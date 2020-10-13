@@ -1,5 +1,5 @@
 class SynchronizationsController < ApplicationController
-  before_action :set_synchronization, only: [:show, :edit, :update, :destroy, :map]
+  before_action :set_synchronization, only: [:show, :edit, :update, :destroy, :map, :save_localizable]
 
   # GET /synchronizations
   # GET /synchronizations.json
@@ -26,6 +26,24 @@ class SynchronizationsController < ApplicationController
     end  
     respond_to do |format|
       format.html
+    end    
+  end
+  
+  def save_localizable
+    mappings = Mapping.includes(:source_field).includes(:target_field).where(:synchronization_id => @synchronization).where('target_field_id IS NOT NULL')
+    if @synchronization.target_platform == 'iOS'
+      @output = ''
+      @synchronization.target_document.each_line do |line|            
+        mappings.each do |mapping|
+          if line.include?(mapping.target_field.to_s) && line.blank? == false
+            line = "\"#{mapping.target_field.to_s}\" = \"#{mapping.common_value}\""
+          end          
+        end
+        @output += line + "</br>"                
+      end            
+    end
+    respond_to do |format|
+        format.html 
     end    
   end
 
