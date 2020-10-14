@@ -33,13 +33,15 @@ class SynchronizationsController < ApplicationController
     mappings = Mapping.includes(:source_field).includes(:target_field).where(:synchronization_id => @synchronization).where('target_field_id IS NOT NULL')
     if @synchronization.target_platform == 'iOS'
       @output = ''
-      @synchronization.target_document.each_line do |line|            
-        mappings.each do |mapping|
+      count = 0
+      @synchronization.target_document.each_line do |line|                    
+        mappings.select{|m| m.target_field.line == count }.each do |mapping|
           if line.include?(mapping.target_field.to_s) && line.blank? == false
             line = "\"#{mapping.target_field.to_s}\" = \"#{mapping.common_value}\""
           end          
         end
         @output += line + "</br>"                
+        count += 1
       end            
     end
     respond_to do |format|

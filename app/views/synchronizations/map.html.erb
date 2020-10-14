@@ -6,20 +6,21 @@
             <th>Target Field</th>
             <th>Value</th>
         </tr>
-    <% @synchronization.mappings.each_with_index do |mapping, index| %>
+    <% @synchronization.mappings.each_with_index do |mapping, index| %>    
         <% if field_idx = @synchronization.target_fields.pluck(:id).index(mapping.target_field_id) %>
         <tr>
-            <td><%= hidden_field_tag 'index[]', index %>
-                <%= hidden_field_tag 'source_field_ids[]', mapping.source_field_id %><%= mapping.source_field.name %></td>
-            <td><%= select_tag 'target_field_ids[]', options_from_collection_for_select(@synchronization.target_fields.order(:name), :id, :name_with_line, :selected => @synchronization.target_fields.slice(field_idx).id), :include_blank => true, :class => 'form-control' %></td>
-            <td><%= text_field_tag 'common_values[]', mapping.common_value, :class => 'form-control' %></td>
+            <td><%= hidden_field_tag 'index[]', index, :id => nil %>
+                <%= hidden_field_tag 'source_field_ids[]', mapping.source_field_id, :id => nil %><%= mapping.source_field.name_with_line %></td>
+            <td><%= select_tag 'target_field_ids[]', options_from_collection_for_select(@synchronization.target_fields.order(:name), :id, :name_with_line, 
+            :selected => @synchronization.target_fields.slice(field_idx).id), :include_blank => true, :class => 'form-control searchable', :id => nil %></td>
+            <td><%= text_field_tag 'common_values[]', mapping.common_value, :class => 'form-control', :id => nil %></td>
         </tr>    
         <% else %>
         <tr>
-            <td><%= hidden_field_tag 'index[]', index %>
-                <%= hidden_field_tag 'source_field_ids[]', mapping.source_field_id %><%= mapping.source_field.name %></td>
-            <td><%= select_tag 'target_field_ids[]', options_from_collection_for_select(@synchronization.target_fields.order(:name), :id, :name_with_line), :include_blank => true, :class => 'form-control' %></td>
-            <td><%= text_field_tag 'common_values[]', mapping.common_value, :class => 'form-control' %></td>
+            <td><%= hidden_field_tag 'index[]', index, :id => nil %>
+                <%= hidden_field_tag 'source_field_ids[]', mapping.source_field_id, :id => nil %><%= mapping.source_field.name_with_line %></td>
+            <td><%= select_tag 'target_field_ids[]', options_from_collection_for_select(@synchronization.target_fields.order(:name), :id, :name_with_line), :include_blank => true, :class => 'form-control searchable', :id => nil %></td>
+            <td><%= text_field_tag 'common_values[]', mapping.common_value, :class => 'form-control', :id => nil %></td>
         </tr>  
         <% end %>    
     <% end %>   
@@ -28,3 +29,8 @@
         <%= f.submit 'Save' %>
     </div>
 <% end %>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.searchable').select2();
+});
+</script>
